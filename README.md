@@ -1,59 +1,75 @@
 On-Premises Active Directory Deployed in the Cloud (Azure)
-<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="AD Deployment Banner"/> </p>
-Overview
-This tutorial demonstrates how to deploy an on-premises-style Active Directory environment using Azure Virtual Machines. It covers the setup of a Windows Server 2022 Domain Controller, a client machine (Windows 10), and the foundational networking and DNS configurations required to simulate a traditional on-prem domain within Azure.
+<p align="center"> <img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo" width="300"/> </p>
+📘 Overview
+This project demonstrates how to deploy and configure an on-premises-style Active Directory Domain Services (AD DS) environment entirely within Microsoft Azure. The guide walks through provisioning virtual machines, promoting a domain controller, and joining a client machine to the new domain—all in a cloud-based lab environment.
 
 📺 Video Demonstration
 YouTube: How to Deploy On-Premises Active Directory within Azure Compute
-(Step-by-step deployment guide including VM setup, domain creation, and domain joining.)
+(Complete step-by-step demonstration.)
 
 🧰 Environments and Technologies Used
 Microsoft Azure – Virtual Machines (Compute)
 
-Remote Desktop Protocol (RDP)
+Remote Desktop (RDP)
 
 Active Directory Domain Services (AD DS)
 
-PowerShell – for scripting and automation
+PowerShell – Used for some configuration and testing
 
 🖥️ Operating Systems Used
-Windows Server 2022 (Domain Controller)
+Windows Server 2022 – Domain Controller
 
-Windows 10 (21H2) (Domain-joined client)
+Windows 10 (21H2) – Domain-joined client
 
-🌀 High-Level Deployment Steps
-Provision two VMs in Azure (one Server 2022, one Windows 10)
+🚀 High-Level Deployment and Configuration Steps
+Provision Azure Virtual Machines (one Server, one Client)
 
-Set static private IP on the Server VM and configure DNS
+Configure Networking (same VNet, static IP for DC, DNS config)
 
-Install and configure Active Directory Domain Services
+Install AD DS on Server VM and promote to Domain Controller
 
-Join the client VM to the domain
+Join Client VM to Domain
 
-🏗️ Deployment and Configuration Steps
-1️⃣ Provision Virtual Machines and Set Up Networking
-<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Provision VMs"/> </p>
-Two VMs are created within the same Azure Virtual Network (VNet). The server VM will act as the domain controller.
+🛠️ Detailed Deployment and Configuration Steps
+1️⃣ Provision Azure Virtual Machines
+<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Azure VM Deployment"/> </p>
+Create two Azure VMs:
 
-2️⃣ Promote Server to Domain Controller
-<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Promote to DC"/> </p>
-Install the AD DS role via Server Manager or PowerShell, then promote the server to a Domain Controller with a new forest (e.g., corp.local).
+One running Windows Server 2022 for AD DS
 
-3️⃣ Configure DNS and IP Settings
-<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="DNS Settings"/> </p>
-Update the network adapter on the client VM to use the server's private IP as its DNS. This ensures proper name resolution during the domain join.
+One running Windows 10 to act as a domain-joined client
+Ensure both VMs are deployed in the same Virtual Network (VNet).
 
-4️⃣ Join Client to Domain
-<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Join Domain"/> </p>
-From the Windows 10 VM, use System Properties to join the domain (e.g., corp.local). Reboot and log in with domain credentials.
+2️⃣ Configure Static IP and DNS for Server VM
+<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="DNS Configuration"/> </p>
+Assign a static private IP to the Server VM in Azure networking.
+
+Set the client VM’s DNS server to point to the private IP of the Server.
+This allows the client to locate and communicate with the domain controller.
+
+3️⃣ Install Active Directory Domain Services (AD DS)
+<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Install AD DS"/> </p>
+Use Server Manager or PowerShell (Install-WindowsFeature AD-Domain-Services) to install the role.
+
+Run the Active Directory Configuration Wizard to promote the server to a Domain Controller.
+
+Create a new forest (e.g., corp.local).
+
+4️⃣ Join Client VM to the Domain
+<p align="center"> <img src="https://i.imgur.com/DJmEXEB.png" width="80%" alt="Domain Join"/> </p>
+Log into the Windows 10 VM via RDP.
+
+Open System Properties > Change Settings > Domain and enter the domain name (e.g., corp.local).
+
+Authenticate with a domain admin account, then restart.
 
 ✅ Summary
-This project simulates an on-premises Active Directory environment within the Azure cloud, demonstrating:
+This lab successfully demonstrates:
 
-AD DS role configuration on Windows Server 2022
+Deployment of a functional Active Directory environment in Azure
 
-DNS configuration and IP address planning in Azure
+Key concepts of on-prem domain simulation using cloud compute resources
 
-Domain joining a Windows 10 VM in the same VNet
+Hands-on experience with network configuration, domain promotion, and client join process
 
-Basic AD management and connectivity validation
+This setup can be expanded with additional services like Group Policy, DHCP, DNS zones, or even Azure AD Connect for hybrid identity scenarios.
